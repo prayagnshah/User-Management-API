@@ -1,0 +1,26 @@
+[
+    {
+        "id": "8aa62beb-7e21-44f2-a160-f18e6be8198f",
+        "name": "Aniket",
+        "age": 22,
+        "team": "blue"
+    },
+    {
+        "id": "812a15fe-4f07-4cb2-8cd6-f90445b8e47b",
+        "name": "Shivam",
+        "age": 23,
+        "team": "red"
+    },
+    {
+        "id": "220c09e0-2b65-4a73-b41b-a956fdca8418",
+        "name": "Manan",
+        "age": 19,
+        "team": "red"
+    },
+    {
+        "id": "8d9f725e-8c86-46c8-8f3e-49c3cf1d7160",
+        "name": "Dhruv",
+        "age": 23,
+        "team": "green"
+    }
+]
