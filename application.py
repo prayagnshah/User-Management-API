@@ -14,63 +14,29 @@ db = SQLAlchemy(app)
 ##ORM joining the model through sqlalchemy
 ##Object relational mapper
 
-class Drink(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(80), unique = True)
-    age = db.Column(db.Integer)
-    team = db.Column(db.String(80))
-
-    def __repr__(self):
-        return f"{self.id} - {self.name} - {self.age} - {self.team}"
 
 @app.route('/')
 def index():
-    return 'Hello'
+    return 'Welcome to my project'
 
-@app.route('/vi/users')
-def vi():
-    users = Drink.query.all()
-    output = []
+@app.route('/v1/users')
+def read_db():
+    with open('database.json', 'r') as f:
+        data = json.load(f)
+        return data
 
-    for sec in users:
-        users_data = {'id': sec.id, 'name': sec.name, 'age': sec.age, 'team': sec.team}
-        output.append(users_data)
+def write_db(updated_database):
+    with open('database.json', 'w') as f:
+        data_1 = json.dump(updated_database, f)
+        return data_1
 
-    return {"users": output}
 
-@app.route('/vi/users/<id>')
-def user_id(id):
-    sec = Drink.query.get_or_404(id)
 
-    # if sec is None:
-    #     return {"error": "user with <id> does not exist"}
 
-    ##dictionaries are seriliazable
-    return {'id': sec.id, 'name': sec.name, 'age': sec.age, 'team': sec.team}
 
-#     ##dictionaries are easily seriationalizable
-#     return f"{'id': sec.id, 'name': sec.name, 'age': sec.age, 'team': sec.team}
+# @app.route('/v1/users/<id>')
 
-# @app.route('/vi/users', methods = ['POST'])
-# def add_data():
-#     sec = Drink(id=request.json['id'], name = request.json['name'])
-#     db.session.add(sec)
-#     db.session.commit()
-#     return {'id': sec.id, 'name': sec.name}
+    ## .load
+# def write_db():
 
-##Deleting a record from the field
-
-@app.route('/vi/users/<id>', methods=['DELETE'])
-def delete_id(id):
-    sec = Drink.query.get(id)
-    if sec is None:
-        return {"error": "404 Not found"}
-    db.session.delete(sec)
-    db.session.commit()
-    return {"message": "Done"}
-
-# @app.route('/vi/users/<id>', methods=['PUT'])
-# def insert_data():
-#     sec = Drink.query.get(id)
-#     db.session.add(sec)
-#     db.session.commit()
+#     ## .dump
