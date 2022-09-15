@@ -1,6 +1,6 @@
 ##importing flask framework
 
-from flask import Flask, json, request, jsonify
+from flask import Flask, json, request, abort
 from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 
@@ -15,20 +15,54 @@ db = SQLAlchemy(app)
 ##Object relational mapper
 
 
-@app.route('/')
-def index():
-    return 'Welcome to my project'
-
-@app.route('/v1/users')
 def read_db():
     with open('database.json', 'r') as f:
         data = json.load(f)
         return data
 
+
 def write_db(updated_database):
     with open('database.json', 'w') as f:
-        data_1 = json.dump(updated_database, f)
-        return data_1
+        json.dump(updated_database, f, indent = 2)
+
+@app.route('/')
+def index():
+    return 'Welcome to my project'
+
+@app.route('/v1/users', methods = ['GET'])
+def read_users():
+    return read_db()
+
+@app.route('/v1/users', methods = ['POST'])
+def write_users():
+    db = read_db()
+    users = db.get('users')
+    users.append(request.json)
+    write_db(db)
+    return str(True)
+
+@app.route('/v1/users/<request_id>', methods = ['GET'])
+def get_id(request_id):
+    data = read_db()
+
+    ##parsing the dictionary users from our json file
+
+    for users_id in data['users']:
+    #using the if else condition to show that user exists.
+
+        id_users = users_id['id']
+
+        if id_users == request_id:
+            return id_users
+
+    return f"Hello"
+
+
+
+
+
+
+
 
 
 
