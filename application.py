@@ -55,9 +55,24 @@ def get_id(request_id):
         if id_users == request_id:
             return id_users
 
-    return f"Hello"
+    return f"ID" + "\n" + request_id + "\n" + "does not exist"
 
 
+@app.route('/v1/users/<id>', methods = ['DELETE'])
+def del_id(id):
+    data = read_db()
+
+    for users in data['users']:
+        for del_id in users.items():
+            print(del_id)
+            if del_id == id:
+                return "Successfully deleted"
+            else:
+                return "Error"
+        # id_users = users_id['id']
+
+        # if id_users == users_id['id']:
+        #     del
 
 
 
