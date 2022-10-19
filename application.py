@@ -37,42 +37,58 @@ def read_users():
 def write_users():
     db = read_db()
     users = db.get('users')
-    users.append(request.json)
+    new_user = request.json  ##how to get the body in postman
+    users.append(new_user)  ##how to write new information in user
     write_db(db)
     return str(True)
 
-@app.route('/v1/users/<request_id>', methods = ['GET'])
+@app.route('/v1/users/<request_id>', methods=['GET'])
 def get_id(request_id):
     data = read_db()
 
     ##parsing the dictionary users from our json file
 
-    for users_id in data['users']:
+    for user in data['users']:
     #using the if else condition to show that user exists.
 
-        id_users = users_id['id']
+        user_id = user['id']
 
-        if id_users == request_id:
-            return id_users
+        if user_id == request_id:
+            return user
 
     return f"ID" + "\n" + request_id + "\n" + "does not exist"
+    return user_id
 
 
-@app.route('/v1/users/<id>', methods = ['DELETE'])
+@app.route('/v1/users/<id>', methods=['DELETE'])
 def del_id(id):
     data = read_db()
 
-    for users in data['users']:
-        for del_id in users.items():
-            print(del_id)
-            if del_id == id:
-                return "Successfully deleted"
-            else:
-                return "Error"
-        # id_users = users_id['id']
+    for user in data['users']:
 
-        # if id_users == users_id['id']:
-        #     del
+
+    # for users in enumerate(data):
+
+        # for alpha in users.items():
+        #     print(alpha)
+        #     if alpha == id_enter:
+        #         return users
+        #     else:
+        #         return "Error"
+
+        user_id = user["id"]
+
+        new_data = []
+
+        if user_id == user['id']:
+            data['users'].remove(user)
+
+            new_data.append(user)
+            return new_data
+        else:
+            return "Wrong ID"
+
+
 
 
 
