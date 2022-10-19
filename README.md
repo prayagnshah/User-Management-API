@@ -1,24 +1,19 @@
-# Notes
+# User-Management-API
 
-##About the project
+## About the project
 
-It is a simple API which displays JSON Data . It taught us to build client side and server side and integrate them to work together.
-
-##App Stack:
-* Client:
-    * Python
-    * REST API
+It is a simple project which manages data and I am using this project as an exercise to practice my web development skills.
 
 * Server:
-    * Postman for testing
+    * Flask
 
-##Endpoints
+## Endpoints
 
-###GET
+### GET
 * `/` - health check
 * `/v1/users` - details of users
 * `/v1/users/<request-id>` - users with the specific id
 
-###POST
+### POST
 * `/v1/users` - create a new user
 
