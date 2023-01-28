@@ -15,12 +15,13 @@ db = SQLAlchemy(app)
 ##Object relational mapper
 
 
+#reading the json file
 def read_db():
     with open('database.json', 'r') as f:
         data = json.load(f)
         return data
 
-
+# creating the json file in write mode
 def write_db(updated_database):
     with open('database.json', 'w') as f:
         json.dump(updated_database, f, indent = 2)
@@ -60,11 +61,11 @@ def get_id(request_id):
     return user_id
 
 
-@app.route('/v1/users/<id>', methods=['DELETE'])
-def del_id(id):
-    data = read_db()
+# @app.route('/v1/users/<id>', methods=['DELETE'])
+# def del_id(id):
+#     data = read_db()
 
-    for user in data['users']:
+#     for user in data['users']:
 
 
     # for users in enumerate(data):
