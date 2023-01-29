@@ -26,14 +26,17 @@ def write_db(updated_database):
     with open('database.json', 'w') as f:
         json.dump(updated_database, f, indent = 2)
 
+# Title of the page
 @app.route('/')
 def index():
     return 'Welcome to my project'
 
+# Using this endpoint to get the database
 @app.route('/v1/users', methods = ['GET'])
 def read_users():
     return read_db()
 
+# Using this endpoint to add the new data into the database
 @app.route('/v1/users', methods = ['POST'])
 def write_users():
     db = read_db()
@@ -43,18 +46,36 @@ def write_users():
     write_db(db)
     return jsonify(str(True))
 
+#Using the endpoint to retrieve the data once the user enters the ID from database
+
 @app.route('/v1/users/<request_id>', methods=['GET'])
 def get_employee(request_id):
     data = read_db()
-    # user_exist = False
 
     #parsing the dictionary users from our json file
     # using get function in order to save the system from throwing an error from the database
 
     for user in data.get('users'):
         if user.get('id') == request_id:
-            # user_exist = True
+
             return jsonify({'name': user['name']})
 
-    return jsonify({'error': 'User with ' + request_id + 'does not exist'}), 404
+    return jsonify({'error': 'User with {} does not exist'.format(request_id)}), 404
 
+
+# Using this endpoint to delete the data as soon as the ID is entered
+@app.route('/v1/users/<request_id>', methods=['DELETE'])
+def delete_id(request_id):
+    data = read_db()
+
+    # index variable will store all json names and user will store the ID matcing the names
+    for index, user in enumerate(data['users']):
+        if user.get('id') == request_id:
+            del data['users'][index]
+
+            # writing the file back to database
+            write_db(data)
+
+            return jsonify({'result': 'User with id {} deleted successfully'.format(request_id)})
+
+    return jsonify({'error': 'User with {} does not exist'.format(request_id)}), 404
