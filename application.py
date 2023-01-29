@@ -41,18 +41,20 @@ def write_users():
     new_user = request.json  ##how to get the body in postman
     users.append(new_user)  ##how to write new information in user
     write_db(db)
-    return str(True)
+    return jsonify(str(True))
 
 @app.route('/v1/users/<request_id>', methods=['GET'])
 def get_employee(request_id):
     data = read_db()
     # user_exist = False
 
-    ##parsing the dictionary users from our json file
+    #parsing the dictionary users from our json file
+    # using get function in order to save the system from throwing an error from the database
 
-    for user in data['users']:
-        if user["id"] == request_id:
+    for user in data.get('users'):
+        if user.get('id') == request_id:
             # user_exist = True
             return jsonify({'name': user['name']})
 
-    return jsonify({'error': 'User with id does not exist'})
+    return jsonify({'error': 'User with ' + request_id + 'does not exist'}), 404
+
