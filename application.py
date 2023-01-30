@@ -90,26 +90,16 @@ def delete_id(request_id):
 @app.route('/v1/users', methods=['POST'])
 
 def add_user():
-
+    required_keys = ['name:', 'age:', 'team:']
     # requesting input in json format
     request_data = request.get_json()
 
-    # required_keys = {'name:', 'age:', 'team:'}
-    # for key in required_keys:
-    #     if key not in required_keys:
-    #         return jsonify({'error': 'Cannot create user as following attributes are missing: {key}'}), 400
 
-    if not request_data:
-        return jsonify({'error': 'No data is provided'}), 400
-
-    if 'name' not in request_data:
-        return jsonify({'error': 'Cannot create user as following attributes are missing: name'}), 400
-
-    if 'age' not in request_data:
-        return jsonify({'error': 'Cannot create user as following attributes are missing: age'}), 400
-
-    if 'team' not in request_data:
-        return jsonify({'error': 'Cannot create user as following attributes are missing: team'}), 400
+    for key in required_keys:
+        try:
+            value = request_data[key]
+        except KeyError:
+            return jsonify({"error":"Cannot create user as following attributes are missing: {}".format(key)})
 
 
     # checking the condition if name, age and team are matching
@@ -128,28 +118,3 @@ def add_user():
     write_db(data)
 
     return jsonify({'message': 'User added successfully'})
-
-
-
-
-
-
-
-
-
-    # if name in request_data and 'age' in request_data and 'team' in request_data:
-    #     new_user = ({ 'name' = request_data['name'], 'age' = request_data['age'], 'team' = request_data['team'] })
-    # # requesting data as per the question
-
-
-    # if not name or not age or not team:
-    #     return jsonify({'error': 'Cannot create user as following attributes are missing:'}), 400
-
-
-    # # if 'name' in request_data and 'age' in request_data and 'team' in request_data:
-
-    # #     new_user = {
-
-    # #     }
-
-
