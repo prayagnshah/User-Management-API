@@ -94,23 +94,47 @@ def add_user():
     # requesting input in json format
     request_data = request.get_json()
 
+    # required_keys = {'name:', 'age:', 'team:'}
+    # for key in required_keys:
+    #     if key not in required_keys:
+    #         return jsonify({'error': 'Cannot create user as following attributes are missing: {key}'}), 400
+
+    if not request_data:
+        return jsonify({'error': 'No data is provided'}), 400
+
+    if 'name' not in request_data:
+        return jsonify({'error': 'Cannot create user as following attributes are missing: name'}), 400
+
+    if 'age' not in request_data:
+        return jsonify({'error': 'Cannot create user as following attributes are missing: age'}), 400
+
+    if 'team' not in request_data:
+        return jsonify({'error': 'Cannot create user as following attributes are missing: team'}), 400
+
+
     # checking the condition if name, age and team are matching
-    if 'name' in request_data and 'age' in request_data and 'team' in request_data:
-        new_user = {
+    # if 'name' in request_data and 'age' in request_data and 'team' in request_data:
+    new_user = {
             'id': str(uuid.uuid4()),
             'name': request_data['name'],
             'age': request_data['age'],
             'team': request_data['team']
         }
-        data = read_db()
 
-        # appending to the current database
-        data['users'].append(new_user)
-        write_db(data)
+    data = read_db()
 
-        return jsonify({'message': 'User added successfully'})
-    else:
-        return jsonify({'error': 'Invalid data, name, age and team are required'}), 400
+    # appending to the current database
+    data['users'].append(new_user)
+    write_db(data)
+
+    return jsonify({'message': 'User added successfully'})
+
+
+
+
+
+
+
 
 
     # if name in request_data and 'age' in request_data and 'team' in request_data:
