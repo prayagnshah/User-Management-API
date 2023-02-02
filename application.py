@@ -61,7 +61,7 @@ def get_employee(request_id):
     for user in data.get('users'):
         if user.get('id') == request_id:
 
-            return jsonify({'name': user['name']})
+            return jsonify(user)
 
     return jsonify({'error': 'User with {} does not exist'.format(request_id)}), 404
 
@@ -90,16 +90,19 @@ def delete_id(request_id):
 @app.route('/v1/users', methods=['POST'])
 
 def add_user():
-    required_keys = ['name:', 'age:', 'team:']
+    required_keys = ['name', 'age', 'team']
     # requesting input in json format
     request_data = request.get_json()
 
 
     for key in required_keys:
-        try:
-            value = request_data[key]
-        except KeyError:
-            return jsonify({"error":"Cannot create user as following attributes are missing: {}".format(key)})
+        # try:
+        #     value = request_data[key]
+        # except KeyError:
+        #     return jsonify({"error":"Cannot create user as following attributes are missing: {}".format(key)})
+
+        if key != request_data:
+            return jsonify({"error":"Cannot create user as following attributes are missing: {}".format(key)}), 400
 
 
     # checking the condition if name, age and team are matching
