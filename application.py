@@ -94,15 +94,13 @@ def add_user():
     # requesting input in json format
     request_data = request.get_json()
 
+    # for key in required_keys:
+    #     if key not in request_data:
+    #Converting the above statement in list comprehension so that multiple missing keys can be displayed
+    missing_keys = [key for key in required_keys if key not in request_data]
 
-    for key in required_keys:
-        # try:
-        #     value = request_data[key]
-        # except KeyError:
-        #     return jsonify({"error":"Cannot create user as following attributes are missing: {}".format(key)})
-
-        if key != request_data:
-            return jsonify({"error":"Cannot create user as following attributes are missing: {}".format(key)}), 400
+    if missing_keys:
+        return jsonify({"error":"Cannot create user as following attributes are missing:{}".format(",".join(missing_keys))}), 400
 
 
     # checking the condition if name, age and team are matching
