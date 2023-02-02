@@ -5,18 +5,15 @@ from flask_sqlalchemy import SQLAlchemy
 import uuid
 app = Flask(__name__)
 
-
-##importing flask data to database table
-
-
-##copied from the flask documentation for sqlalchemy
+#importing flask data to database table
+#copied from the flask documentation for sqlalchemy
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 db = SQLAlchemy(app)
-##ORM joining the model through sqlalchemy
-##Object relational mapper
+#ORM joining the model through sqlalchemy
+#Object relational mapper
 
 
-#reading the json file
+# reading the json file
 def read_db():
     with open('database.json', 'r') as f:
         data = json.load(f)
@@ -37,24 +34,14 @@ def index():
 def read_users():
     return read_db()
 
-# # Using this endpoint to add the new data into the database
-# @app.route('/v1/users', methods = ['POST'])
-# def write_users():
-#     db = read_db()
-#     users = db.get('users')
-#     new_user = request.json  ##how to get the body in postman
-#     users.append(new_user)  ##how to write new information in user
-#     write_db(db)
-#     return jsonify(str(True))
-
-#Using the endpoint to retrieve the data
+# Using the endpoint to retrieve the data
 # once the user enters the ID from database
 
 @app.route('/v1/users/<request_id>', methods=['GET'])
 def get_employee(request_id):
     data = read_db()
 
-    #parsing the dictionary users from our json file
+    # parsing the dictionary users from our json file
     # using GET function in order to save the system from
     # throwing an error from the database
 
@@ -94,28 +81,31 @@ def add_user():
     # requesting input in json format
     request_data = request.get_json()
 
-    # for key in required_keys:
-    #     if key not in request_data:
-    #Converting the above statement in list comprehension so that multiple missing keys can be displayed
-    missing_keys = [key for key in required_keys if key not in request_data]
+    # storing key values from the user
+    user_key = {}
+
+    # storing missing keys and producing error
+    missing_keys = []
+
+    for key in required_keys:
+        if key not in request_data:
+            missing_keys.append(key)
 
     if missing_keys:
         return jsonify({"error":"Cannot create user as following attributes are missing:{}".format(",".join(missing_keys))}), 400
 
+    # storing the user entered values
+    for key in required_keys:
+        user_key[key] = request_data[key]
 
-    # checking the condition if name, age and team are matching
-    # if 'name' in request_data and 'age' in request_data and 'team' in request_data:
-    new_user = {
-            'id': str(uuid.uuid4()),
-            'name': request_data['name'],
-            'age': request_data['age'],
-            'team': request_data['team']
-        }
+    #creating random ID
+    user_key['id'] = str(uuid.uuid4())
 
     data = read_db()
 
     # appending to the current database
-    data['users'].append(new_user)
+    data['users'].append(user_key)
     write_db(data)
 
+    # showing output message according to the card
     return jsonify({'message': 'User added successfully'})
