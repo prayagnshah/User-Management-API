@@ -15,5 +15,8 @@ It is a simple project which manages data and I am using this project as an exer
 * `/v1/users/<request-id>` - users with the specific id
 
 ### POST
-* `/v1/users` - create a new user
+* `/v1/users` - create a new user with proper attributes 
+
+### DELETE
+* `/v1/users/<request-id>` - deleting users details and providing error with proper HTTP response code
 
