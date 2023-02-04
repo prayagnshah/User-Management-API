@@ -109,3 +109,25 @@ def add_user():
 
     # showing output message according to the card
     return jsonify({'message': 'User added successfully'})
+
+
+# Modifying the users data in database using PUT request
+
+@app.route('/v1/users/<id>', methods=['PUT'])
+
+def modify_user(id):
+    data = read_db()
+
+    request_data = request.get_json()
+
+
+    # modifying the data as per the user's input
+    for modify in data.get('users'):
+        if modify.get('id') == id:
+            modify.update(request_data)
+            write_db(data)
+            return jsonify(modify)
+
+
+    # Returning invalid ID
+    return jsonify({"error": "User with id {} is invalid".format(id)}), 404

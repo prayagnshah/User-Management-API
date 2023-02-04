@@ -47,16 +47,16 @@
       "team": "Violet"
     },
     {
-      "age": 29,
+      "age": "29",
       "id": "8b071ef9-2b60-4ee9-bb2d-abd14b713a32",
       "name": "Pratyaksh",
       "team": "Violet"
     },
     {
-      "age": 34,
+      "age": "30",
       "id": "8d82ae6e-b791-4fc6-8647-f13e69593900",
       "name": "Yaksh",
-      "team": "red"
+      "team": "violet"
     }
   ]
 }
