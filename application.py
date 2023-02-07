@@ -1,41 +1,42 @@
-##importing flask framework
+# importing flask framework
 
 from flask import Flask, json, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
+import os
 import uuid
 app = Flask(__name__)
 
-#importing flask data to database table
-#copied from the flask documentation for sqlalchemy
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
-db = SQLAlchemy(app)
-#ORM joining the model through sqlalchemy
-#Object relational mapper
-
-
 # reading the json file
+
+
 def read_db():
     with open('database.json', 'r') as f:
         data = json.load(f)
         return data
 
 # creating the json file in write mode
+
+
 def write_db(updated_database):
     with open('database.json', 'w') as f:
-        json.dump(updated_database, f, indent = 2)
+        json.dump(updated_database, f, indent=2)
 
 # Title of the page
+
+
 @app.route('/')
 def index():
     return 'Welcome to my project'
 
 # Using this endpoint to get the database
-@app.route('/v1/users', methods = ['GET'])
+
+
+@app.route('/v1/users', methods=['GET'])
 def read_users():
     return read_db()
 
 # Using the endpoint to retrieve the data
 # once the user enters the ID from database
+
 
 @app.route('/v1/users/<request_id>', methods=['GET'])
 def get_employee(request_id):
@@ -74,8 +75,8 @@ def delete_id(request_id):
 # Using this endpoint to create the POST request to add the new user
 # into the database
 
-@app.route('/v1/users', methods=['POST'])
 
+@app.route('/v1/users', methods=['POST'])
 def add_user():
     required_keys = ['name', 'age', 'team']
     # requesting input in json format
@@ -92,13 +93,13 @@ def add_user():
             missing_keys.append(key)
 
     if missing_keys:
-        return jsonify({"error":"Cannot create user as following attributes are missing:{}".format(",".join(missing_keys))}), 400
+        return jsonify({"error": "Cannot create user as following attributes are missing:{}".format(",".join(missing_keys))}), 400
 
     # storing the user entered values
     for key in required_keys:
         user_key[key] = request_data[key]
 
-    #creating random ID
+    # creating random ID
     user_key['id'] = str(uuid.uuid4())
 
     data = read_db()
@@ -114,12 +115,10 @@ def add_user():
 # Modifying the users data in database using PUT request
 
 @app.route('/v1/users/<id>', methods=['PUT'])
-
 def modify_user(id):
     data = read_db()
 
     request_data = request.get_json()
-
 
     # modifying the data as per the user's input
     for modify in data.get('users'):
@@ -128,6 +127,20 @@ def modify_user(id):
             write_db(data)
             return jsonify(modify)
 
-
     # Returning invalid ID
     return jsonify({"error": "User with id {} is invalid".format(id)}), 404
+
+
+def get_flask_port():
+    server_name = app.config.get("SERVER_NAME")
+    if server_name:
+        _, port = server_name.split(":")
+        return port
+    else:
+        return "5000"
+
+
+if __name__ == "__main__":
+    port = os.getenv('PORT') or 5000
+    app.run(port=port)
+    print('Flask app is running on port', get_flask_port())
