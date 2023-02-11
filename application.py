@@ -123,6 +123,9 @@ def modify_user(id):
     # modifying the data as per the user's input
     for modify in data.get('users'):
         if modify.get('id') == id:
+
+            # Ensure that the user's input does not modify ID
+            request_data.pop('id', None)
             modify.update(request_data)
             write_db(data)
             return jsonify(modify)
