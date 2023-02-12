@@ -134,6 +134,35 @@ def modify_user(id):
     return jsonify({"error": "User with id {} is invalid".format(id)}), 404
 
 
+@app.route('/v1/users', methods=['GET'])
+def query_user():
+
+    data = read_db()["users"]
+
+    #To get the query string of name team
+    team = request.args.get('team')
+
+    # storing into empty dictionary
+    results = []
+
+    # getting the values of the dictionary and
+    # then matching up with team
+    for user_value in data.values():
+        if user_value.get('team') == team:
+            results.append(user_value)
+
+
+    return jsonify(results)
+
+    # print(results)
+
+
+
+
+
+
+
+
 def get_flask_port():
     server_name = app.config.get("SERVER_NAME")
     if server_name:
