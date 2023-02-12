@@ -164,6 +164,8 @@ def get_flask_port():
 
 
 if __name__ == "__main__":
-    port = os.getenv('PORT') or 5000
-    app.run(port=port, processes = 1, timeout = 90)
+    port = int(os.getenv('PORT',5000))
+    app.run(host = '0.0.0.0', port=port)
     print('Flask app is running on port', get_flask_port())
+
+
