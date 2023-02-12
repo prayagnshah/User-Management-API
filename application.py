@@ -32,7 +32,26 @@ def index():
 
 @app.route('/v1/users', methods=['GET'])
 def read_users():
-    return read_db()
+
+    data = read_db()
+       #To get the query string of name team
+    team = request.args.get('team')
+
+    # Printing the whole database if Team is not entered
+    if team is None:
+        return jsonify(data)
+
+    # storing into empty dictionary
+    results = []
+
+    # getting the values of the dictionary and
+    # then matching up with team
+    for user_value in data.get('users'):
+        if user_value.get('team') == team:
+            results.append(user_value)
+
+
+    return jsonify(results)
 
 # Using the endpoint to retrieve the data
 # once the user enters the ID from database
@@ -132,34 +151,6 @@ def modify_user(id):
 
     # Returning invalid ID
     return jsonify({"error": "User with id {} is invalid".format(id)}), 404
-
-
-@app.route('/v1/users', methods=['GET'])
-def query_user():
-
-    data = read_db()["users"]
-
-    #To get the query string of name team
-    team = request.args.get('team')
-
-    # storing into empty dictionary
-    results = []
-
-    # getting the values of the dictionary and
-    # then matching up with team
-    for user_value in data.values():
-        if user_value.get('team') == team:
-            results.append(user_value)
-
-
-    return jsonify(results)
-
-    # print(results)
-
-
-
-
-
 
 
 
