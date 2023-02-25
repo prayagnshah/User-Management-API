@@ -7,20 +7,37 @@ import os
 import uuid
 app = Flask(__name__)
 
-# reading the json file
+
+# This will search for .env file
+
+load_dotenv(find_dotenv())
+
+FIREBASE_CONFIG = {"apiKey": os.getenv("FIREBASE_API_KEY"),
+                   "authDomain": os.getenv("FIREBASE_DOMAIN"),
+                   "databaseURL": os.getenv("FIREBASE_PROJECT"),
+                   "projectId": os.getenv("FIREBASE_PROJECT_ID"),
+                   "storageBucket": os.getenv("FIREBASE_BUCKET"),
+                   "messagingSenderId": os.getenv("FIREBASE_SENDER_ID"),
+                   "appId": os.getenv("FIREBASE_APP_ID"),
+                   "measurementId": os.getenv("FIREBASE_MEASUREMENT")}
+
+
+firebase = pyrebase.initialize_app(FIREBASE_CONFIG)
+
+db = firebase.database()
+
+# Defining the child name for the read and write database
+child_name = 'users'
 
 
 def read_db():
-    with open('database.json', 'r') as f:
-        data = json.load(f)
-        return data
+    db.child(child_name).get()
 
-# creating the json file in write mode
 
+# creating the json file in write mode and then adding directly to the firebase
 
 def write_db(updated_database):
-    with open('database.json', 'w') as f:
-        json.dump(updated_database, f, indent=2)
+    db.child(child_name).set(updated_database)
 
 # Title of the page
 
@@ -36,7 +53,7 @@ def index():
 def read_users():
 
     data = read_db()
-       #To get the query string of name team
+    # To get the query string of name team
     team = request.args.get('team')
 
     # Printing the whole database if Team is not entered
@@ -51,7 +68,6 @@ def read_users():
     for user_value in data.get('users'):
         if user_value.get('team') == team:
             results.append(user_value)
-
 
     return jsonify(results)
 
@@ -155,7 +171,6 @@ def modify_user(id):
     return jsonify({"error": "User with id {} is invalid".format(id)}), 404
 
 
-
 def get_flask_port():
     server_name = app.config.get("SERVER_NAME")
     if server_name:
@@ -166,34 +181,6 @@ def get_flask_port():
 
 
 if __name__ == "__main__":
-    port = int(os.getenv('PORT',5000))
-    app.run(host = '0.0.0.0', port=port)
+    port = int(os.getenv('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
     print('Flask app is running on port', get_flask_port())
-
-
-
-
-
-# This will search for .env file
-
-load_dotenv(find_dotenv())
-
-FIREBASE_CONFIG = {"apiKey": os.getenv("FIREBASE_API_KEY"),
-  "authDomain": os.getenv("FIREBASE_DOMAIN"),
-  "databaseURL": os.getenv("FIREBASE_PROJECT"),
-  "projectId": os.getenv("FIREBASE_PROJECT_ID"),
-  "storageBucket": os.getenv("FIREBASE_BUCKET"),
-  "messagingSenderId": os.getenv("FIREBASE_SENDER_ID"),
-  "appId": os.getenv("FIREBASE_APP_ID"),
-  "measurementId": os.getenv("FIREBASE_MEASUREMENT")}
-
-
-firebase=pyrebase.initialize_app(FIREBASE_CONFIG)
-
-db = firebase.database()
-
-# Push Database.json Data
-
-with open('database.json', 'r') as f:
-    data = json.load(f)
-    db.child("User's info:").set(data)
