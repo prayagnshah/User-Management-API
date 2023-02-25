@@ -31,29 +31,25 @@
       "team": "green"
     },
     {
-      "description": "How are you?",
-      "name": "My repositoryuxaluhq3tzl"
-    },
-    {
-      "age": "36",
+      "age": 36,
       "id": "9c9f0e12-f2bf-4575-b407-4c2fcf01c688",
       "name": "Danish",
       "team": "Violet"
     },
     {
-      "age": "25",
+      "age": 25,
       "id": "2a102cb9-9aa8-4e23-9804-da6d90bdb4c9",
       "name": "Dipen",
       "team": "Violet"
     },
     {
-      "age": "29",
+      "age": 29,
       "id": "124442",
       "name": "Pratyaksh",
       "team": "Violet"
     },
     {
-      "age": "30",
+      "age": 30,
       "id": "8d82ae6e-b791-4fc6-8647-f13e69593900",
       "name": "Yaksh",
       "team": "violet"
@@ -65,10 +61,10 @@
       "team": "blue"
     },
     {
-      "age": 30,
-      "id": "5fcfed01-0e66-4a64-887b-90ac9c73eabf",
-      "name": "Manvi",
-      "team": "blue"
+      "age": 29,
+      "id": "5fcfed01-0e66-4a64-887b-90ac9c73gvhb",
+      "name": "Shailee",
+      "team": "white"
     }
   ]
 }
