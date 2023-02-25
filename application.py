@@ -1,6 +1,8 @@
 # importing flask framework
 
 from flask import Flask, json, request, jsonify
+from dotenv import load_dotenv, find_dotenv
+import pyrebase
 import os
 import uuid
 app = Flask(__name__)
@@ -169,3 +171,29 @@ if __name__ == "__main__":
     print('Flask app is running on port', get_flask_port())
 
 
+
+
+
+# This will search for .env file
+
+load_dotenv(find_dotenv())
+
+FIREBASE_CONFIG = {"apiKey": os.getenv("FIREBASE_API_KEY"),
+  "authDomain": os.getenv("FIREBASE_DOMAIN"),
+  "databaseURL": os.getenv("FIREBASE_PROJECT"),
+  "projectId": os.getenv("FIREBASE_PROJECT_ID"),
+  "storageBucket": os.getenv("FIREBASE_BUCKET"),
+  "messagingSenderId": os.getenv("FIREBASE_SENDER_ID"),
+  "appId": os.getenv("FIREBASE_APP_ID"),
+  "measurementId": os.getenv("FIREBASE_MEASUREMENT")}
+
+
+firebase=pyrebase.initialize_app(FIREBASE_CONFIG)
+
+db = firebase.database()
+
+# Push Database.json Data
+
+with open('database.json', 'r') as f:
+    data = json.load(f)
+    db.child("User's info:").set(data)
