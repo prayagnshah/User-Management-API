@@ -26,6 +26,10 @@ firebase = pyrebase.initialize_app(FIREBASE_CONFIG)
 
 db = firebase.database()
 
+# with open('database.json', 'r') as f:
+#     data = json.load(f)
+#     db.set(data)
+
 # Defining the child name for the read and write database
 child_name = 'users'
 
