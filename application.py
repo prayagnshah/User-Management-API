@@ -26,22 +26,18 @@ firebase = pyrebase.initialize_app(FIREBASE_CONFIG)
 
 db = firebase.database()
 
-# with open('database.json', 'r') as f:
-#     data = json.load(f)
-#     db.set(data)
-
 # Defining the child name for the read and write database
-child_name = 'users'
+# child_name = 'users'
 
 
 def read_db():
-    db.child(child_name).get()
+    return db.get().val()
 
 
 # creating the json file in write mode and then adding directly to the firebase
 
 def write_db(updated_database):
-    db.child(child_name).set(updated_database)
+    return db.set(updated_database)
 
 # Title of the page
 
