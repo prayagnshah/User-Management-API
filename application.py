@@ -5,22 +5,24 @@ from dotenv import load_dotenv, find_dotenv
 import pyrebase
 import os
 import uuid
+import base64
 app = Flask(__name__)
+
+# function to decode value
+
+
+def decode_base64(string):
+    return base64.b64decode(string).decode('utf-8')
 
 
 # This will search for .env file
-
 load_dotenv(find_dotenv())
 
-FIREBASE_CONFIG = {"apiKey": os.getenv("FIREBASE_API_KEY"),
-                   "authDomain": os.getenv("FIREBASE_DOMAIN"),
-                   "databaseURL": os.getenv("FIREBASE_PROJECT"),
-                   "projectId": os.getenv("FIREBASE_PROJECT_ID"),
-                   "storageBucket": os.getenv("FIREBASE_BUCKET"),
-                   "messagingSenderId": os.getenv("FIREBASE_SENDER_ID"),
-                   "appId": os.getenv("FIREBASE_APP_ID"),
-                   "measurementId": os.getenv("FIREBASE_MEASUREMENT")}
+# Decoding the string value from .env
+decoded_value = decode_base64(os.getenv("FIREBASE_CONFIG"))
 
+
+FIREBASE_CONFIG = json.loads(decoded_value)
 
 firebase = pyrebase.initialize_app(FIREBASE_CONFIG)
 
