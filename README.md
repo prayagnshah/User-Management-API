@@ -19,7 +19,7 @@ The project management of this application was done using Trello boards with the
 
 ### GET
 * `/` - health check and provide the welcome message
-* `/v1/users` - details of all users and can also identify the user with the help of query strings. For eg: v1/users?team=red
+* `/v1/users` - details of all users and can also identify the user with the help of query strings. For eg: **v1/users?team=red**
 * `/v1/users/<request-id>` - output of all users with the specific id
 
 ### POST
@@ -30,3 +30,6 @@ The project management of this application was done using Trello boards with the
 
 ### PUT
 * `/v1/users/<id>` - updating ID of specific user details without changing any other attributes. Attributes allowed to update are age, name and team
+
+## Database Migration
+* The original version of this application used a local file to store user data. However, I have migrated the database to Firebase for improved scalability and reliability.
