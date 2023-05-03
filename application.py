@@ -6,7 +6,17 @@ import pyrebase
 import os
 import uuid
 import base64
+import requests
 app = Flask(__name__)
+
+
+def get_user_ip():
+    """
+    Getting the IP address of the user
+    """
+    return requests.get('https://api.ipify.org').text
+
+print(get_user_ip())
 
 # function to decode value
 
@@ -186,3 +196,11 @@ if __name__ == "__main__":
     port = int(os.getenv('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
     print('Flask app is running on port', get_flask_port())
+
+
+
+def get_user_ip():
+    """
+    Getting the IP address of the user
+    """
+    return requests.get('https://api.ipify.org').text
