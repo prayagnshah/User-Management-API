@@ -10,13 +10,6 @@ import requests
 app = Flask(__name__)
 
 
-def get_user_ip():
-    """
-    Getting the IP address of the user
-    """
-    return requests.get('https://api.ipify.org').text
-
-
 # function to decode value
 
 
@@ -55,10 +48,7 @@ def write_db(updated_database):
 
 @app.route('/')
 def index():
-    client_ip = request.headers.get('X-Forwarded-For', request.remote_addr)
-    client_ip = client_ip.split(',')[0].strip()
-
-    return client_ip
+    return "Welcome to my Project!"
 
 # Using this endpoint to get the database
 
