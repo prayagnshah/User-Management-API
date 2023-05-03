@@ -16,7 +16,6 @@ def get_user_ip():
     """
     return requests.get('https://api.ipify.org').text
 
-print(get_user_ip())
 
 # function to decode value
 
@@ -56,7 +55,10 @@ def write_db(updated_database):
 
 @app.route('/')
 def index():
-    return 'Welcome to my project'
+    client_ip = request.headers.get('X-Forwarded-For', request.remote_addr)
+    client_ip = client_ip.split(',')[0].strip()
+
+    return client_ip
 
 # Using this endpoint to get the database
 
@@ -196,7 +198,6 @@ if __name__ == "__main__":
     port = int(os.getenv('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
     print('Flask app is running on port', get_flask_port())
-
 
 
 def get_user_ip():
